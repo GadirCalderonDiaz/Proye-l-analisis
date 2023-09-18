@@ -1,0 +1,161 @@
+body {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #212121;
+    height: 100vh;
+}
+
+
+
+
+.view{
+    display: none;
+}    
+
+
+#view1{
+
+    position: relative;
+    display: grid;
+    justify-content: center;
+    width: 100%;
+    gap: 40PX;
+
+}
+
+.container{
+
+    position: relative;
+    display: grid;
+    justify-content: center;
+    width: 100%;
+    gap: 40PX;
+
+}
+
+.bGame {
+    width: 8.5em;
+    height: 2.3em;
+    margin: 0.5em;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 20px; 
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+button:hover {
+    color: black;    
+}
+
+
+button:after {
+    content: "";
+    background:rgb(95, 203, 236);
+    position: absolute;
+    z-index: -1; 
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.55;
+}
+
+button:hover:after {
+    transform: skewX(-45deg) scale(1, 1);
+    -webkit-transition: all 0.5s;
+    transition: all 0.55;
+}
+
+.title{
+    position: relative;
+    top: -100px;
+
+    text-align: center;
+    color: whitesmoke;
+    margin: 0;
+    font-size: 70px;
+    font-family: lato;
+    animation: movement 3s infinite;
+} 
+
+@keyframes movement {
+    0% {
+        text-shadow:rgb(27, 115, 142)
+        0px 0px, 
+        rgb(27, 115, 142);
+    }
+    50% {
+        text-shadow:rgb(71, 220, 228)
+        -8px 0px, 
+        rgb(63, 101, 152) 8px 0px;
+    }
+    100% {
+        text-shadow: rgb(27, 115, 142)
+        0px 0px, 
+        rgb(27, 115, 142);
+    }    
+}
+.tx{
+   
+    position: relative;
+    top: 10px;
+    text-align: center;
+    font-family: lato;
+    color: rgb(95, 203, 236);
+    
+}
+.number{
+    position: relative;
+    top: -20px;
+    text-align: center;
+    font-family: lato;
+    color: rgb(95, 203, 236);
+}
+
+input[type="range"] {
+
+    position: relative;
+    top: -50px;
+    accent-color: rgb(95, 203, 236);
+}
+
+.view2{
+    position: relative;
+    display: grid;
+    justify-content: center;
+    width: 100%;
+    gap: 40PX;
+
+}
+
+.container2{
+
+    position: relative;
+    display: grid;
+    justify-content: center;
+    width: 100%;
+    gap: 40PX;
+
+}
+
+
+.return {
+    border-radius: 50%;
+    background: black;
+    color: white;
+    font-size: 20px; 
+    cursor: pointer;
+    position: relative;
+    top: -320px;
+    z-index: 1;
+    overflow: hidden;
+}
+
