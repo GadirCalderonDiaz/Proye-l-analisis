@@ -154,7 +154,7 @@ input[type="range"] {
     font-size: 20px; 
     cursor: pointer;
     position: relative;
-    top: -320px;
+    top: -440px;
     z-index: 1;
     overflow: hidden;
 }
