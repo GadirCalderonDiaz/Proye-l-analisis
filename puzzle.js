@@ -53,3 +53,50 @@ ret.addEventListener('click', () => {
     }
 });
 ////////////////////////////////////////////
+// ... (resto del código existente)
+
+// Función para mover una ficha
+function moverFicha(event) {
+    const piece = event.target;
+    if (piece.classList.contains('empty')) {
+        // No hacer nada si se hace clic en el espacio vacío
+        return;
+    }
+
+    const pieces = Array.from(document.querySelectorAll('.puzzle-piece'));
+    const tamano = Math.sqrt(pieces.length);  // Obtener el tamaño del tablero
+
+    const pieceIndex = pieces.indexOf(piece);
+    const emptyPieceIndex = pieces.findIndex(p => p.classList.contains('empty'));
+
+    const [filaFicha, colFicha] = [Math.floor(pieceIndex / tamano), pieceIndex % tamano];
+    const [filaVacia, colVacia] = [Math.floor(emptyPieceIndex / tamano), emptyPieceIndex % tamano];
+
+    // Verificar si la ficha está adyacente al espacio vacío
+    if (Math.abs(filaFicha - filaVacia) + Math.abs(colFicha - colVacia) === 1) {
+        // Intercambiar la ficha con el espacio vacío
+        [pieces[pieceIndex].textContent, pieces[emptyPieceIndex].textContent] = [pieces[emptyPieceIndex].textContent, pieces[pieceIndex].textContent];
+        pieces[pieceIndex].classList.toggle('empty');
+        pieces[emptyPieceIndex].classList.toggle('empty');
+        verificarGanador(tamano);
+    }
+}
+
+// Función para verificar si el jugador ha ganado
+function verificarGanador(tamano) {
+    const pieces = document.querySelectorAll('.puzzle-piece:not(.empty)');
+    const ordenCorrecto = Array.from({ length: tamano * tamano - 1 }, (_, index) => index + 1).join('');
+    const ordenActual = Array.from(pieces).map(piece => piece.textContent).join('');
+    if (ordenCorrecto === ordenActual) {
+        alert('¡Ganaste!');
+    }
+}
+
+// ... (resto del código existente en el evento click)
+
+// Asegurarse de que cada pieza del puzzle tenga un evento de clic adjunto para mover la ficha
+bottonPlay.addEventListener('click', () => {
+    // ... (resto del código existente en el evento click)
+    const pieces = document.querySelectorAll('.puzzle-piece');
+    pieces.forEach(piece => piece.addEventListener('click', moverFicha));
+});
