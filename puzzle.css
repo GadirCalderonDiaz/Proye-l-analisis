@@ -114,6 +114,30 @@ input[type="range"] {
     accent-color: rgb(95, 203, 236);
 }
 
+
+.fotos {
+    display: flex; /* Cambio de flow-root a flex */
+    justify-content: flex-end;  /* Alinear al extremo derecho */
+    gap: 10px;  /* Espacio entre las imágenes */
+    margin-bottom: 20px;
+    flex-wrap: nowrap; /* Asegura que los elementos no se envuelvan a la siguiente línea */
+}
+
+.fotos-item {
+    max-width: 300px;
+}
+
+.fotos-item img {
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.fotos-item img:hover {
+    transform: scale(1.05);
+}
+
 .view2{
     position: relative;
     display: grid;
