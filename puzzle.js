@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////
+let selectedImageUrl = '';
 ////board bar///////
 const input = document.querySelector("input");
 const num = document.querySelector(".number");
@@ -20,17 +20,29 @@ bottonPlay.addEventListener('click', () => {
     view2.style.display = 'block';
 
     // Create puzzle pieces
-  
-    board.style.gridTemplateColumns = `repeat(${input.value}, 1fr)`;
-    for (let i = 0; i < input.value * input.value - 1; i++) {
-        const piece = document.createElement('div');
-        piece.classList.add('puzzle-piece');
-        piece.textContent = i + 1;
-        piece.style.backgroundColor = '#9e9e9e'; // Adjust background color
-        piece.style.color = '#fff'; // Adjust text color
-        document.querySelector('.puzzleBoard').appendChild(piece);
-    }
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = selectedImageUrl;
+    img.onload = () => {
+        const boardSize = parseInt(input.value);
+        board.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+        const fragmentos = dividirImagen(img, boardSize, boardSize);
 
+        for (let i = 0; i < fragmentos.length-1; i++) {
+            const piece = document.createElement('div');
+            piece.classList.add('puzzle-piece');
+            piece.setAttribute('data-number', i); // Asignar un ID basado en el número de pieza
+            piece.style.backgroundImage = `url('${fragmentos[i]}')`;
+            piece.style.backgroundSize = 'cover';
+            
+            const number = document.createElement('span');  // Crear un elemento span para el número
+            number.textContent = i + 1;  // Establecer el contenido de texto al número de la ficha
+            number.style.zIndex = 2;  // Establecer z-index para que el número aparezca encima de la imagen
+            piece.appendChild(number);  // Añadir el número a la ficha
+            
+            document.querySelector('.puzzleBoard').appendChild(piece);
+        }
+    
     // Add an empty space as the last piece
     const emptyPiece = document.createElement('div');
     emptyPiece.classList.add('puzzle-piece', 'empty');
@@ -41,6 +53,9 @@ bottonPlay.addEventListener('click', () => {
     puzzlePieces.sort(() => Math.random() - 0.5);
     puzzlePieces.forEach(piece => document.querySelector('.puzzleBoard').appendChild(piece));
 
+    const pieces = document.querySelectorAll('.puzzle-piece');
+    pieces.forEach(piece => piece.addEventListener('click', moverFicha));
+    };
 });
 
 ret.addEventListener('click', () => {
@@ -52,15 +67,39 @@ ret.addEventListener('click', () => {
         board.removeChild(board.firstChild);
     }
 });
-////////////////////////////////////////////
-// ... (resto del código existente)
 
+document.querySelectorAll('.fotos-item img').forEach(img => {
+    img.addEventListener('click', function () {
+        selectedImageUrl = this.src;
+    });
+});
+////////////////////////////////////////////
+function dividirImagen(img, filas, columnas) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const anchoFragmento = img.width / columnas;
+    const altoFragmento = img.height / filas;
+    const fragmentos = [];
+
+    for (let i = 0; i < filas; i++) {
+        for (let j = 0; j < columnas; j++) {
+            const x = j * anchoFragmento;
+            const y = i * altoFragmento;
+            canvas.width = anchoFragmento;
+            canvas.height = altoFragmento;
+            ctx.drawImage(img, x, y, anchoFragmento, altoFragmento, 0, 0, anchoFragmento, altoFragmento);
+            const dataURL = canvas.toDataURL();
+            fragmentos.push(dataURL);
+        }
+    }
+
+    return fragmentos;
+}
 // Función para mover una ficha
 function moverFicha(event) {
-    const piece = event.target;
+    const piece = event.target.closest('.puzzle-piece');  // Asegurarse de obtener el elemento puzzle-piece correcto
     if (piece.classList.contains('empty')) {
-        // No hacer nada si se hace clic en el espacio vacío
-        return;
+        return;  // No hacer nada si se hace clic en el espacio vacío
     }
 
     const pieces = Array.from(document.querySelectorAll('.puzzle-piece'));
@@ -74,23 +113,29 @@ function moverFicha(event) {
 
     // Verificar si la ficha está adyacente al espacio vacío
     if (Math.abs(filaFicha - filaVacia) + Math.abs(colFicha - colVacia) === 1) {
-        // Intercambiar la ficha con el espacio vacío
-        [pieces[pieceIndex].textContent, pieces[emptyPieceIndex].textContent] = [pieces[emptyPieceIndex].textContent, pieces[pieceIndex].textContent];
-        pieces[pieceIndex].classList.toggle('empty');
-        pieces[emptyPieceIndex].classList.toggle('empty');
+        // Crear un nodo de marcador de posición temporal
+        const tempNode = document.createElement('div');
+        piece.parentNode.insertBefore(tempNode, piece);
+        pieces[emptyPieceIndex].parentNode.insertBefore(piece, pieces[emptyPieceIndex]);
+        tempNode.parentNode.replaceChild(pieces[emptyPieceIndex], tempNode);
+        
         verificarGanador(tamano);
     }
 }
 
-// Función para verificar si el jugador ha ganado
+
+
 function verificarGanador(tamano) {
     const pieces = document.querySelectorAll('.puzzle-piece:not(.empty)');
-    const ordenCorrecto = Array.from({ length: tamano * tamano - 1 }, (_, index) => index + 1).join('');
-    const ordenActual = Array.from(pieces).map(piece => piece.textContent).join('');
+    const ordenCorrecto = Array.from({ length: tamano * tamano - 1 }, (_, index) => index).join('');
+    const ordenActual = Array.from(pieces).map(piece => piece.dataset.number).join('');
     if (ordenCorrecto === ordenActual) {
         alert('¡Ganaste!');
     }
 }
+
+
+
 
 // ... (resto del código existente en el evento click)
 
