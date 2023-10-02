@@ -73,7 +73,19 @@ document.querySelectorAll('.fotos-item img').forEach(img => {
         selectedImageUrl = this.src;
     });
 });
-////////////////////////////////////////////
+
+/** 
+* Divide la imagen en las partes necesarias segun el tamaño de tablero seleccionado
+*
+* @author Gadyr Calderon
+* @author Jareck Levell
+* @author Bayron Rodriguez
+* @param img
+* @param filas
+* @param columnas
+* @returns fragmentos
+*/
+
 function dividirImagen(img, filas, columnas) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -95,7 +107,16 @@ function dividirImagen(img, filas, columnas) {
 
     return fragmentos;
 }
-// Función para mover una ficha
+
+/**
+ * Función para mover una ficha
+ * 
+ * @author Gadyr Calderon
+ * @author Bayron Rodriguez
+ * @author Jareck Levell
+ * @param event 
+ * @returns 
+ */
 function moverFicha(event) {
     const piece = event.target.closest('.puzzle-piece');  // Asegurarse de obtener el elemento puzzle-piece correcto
     if (piece.classList.contains('empty')) {
@@ -123,8 +144,14 @@ function moverFicha(event) {
     }
 }
 
-
-
+/**
+ * Verifica si el puzzle esta en el orden correcto, y si es asi retorna una alerta al ganador
+ * 
+ * @author Gadyr Calderon
+ * @author Bayron Rodriguez
+ * @author Jareck Levell
+ * @param tamano 
+ */
 function verificarGanador(tamano) {
     const pieces = document.querySelectorAll('.puzzle-piece:not(.empty)');
     const ordenCorrecto = Array.from({ length: tamano * tamano - 1 }, (_, index) => index).join('');
@@ -133,9 +160,6 @@ function verificarGanador(tamano) {
         alert('¡Ganaste!');
     }
 }
-
-
-
 
 // ... (resto del código existente en el evento click)
 
