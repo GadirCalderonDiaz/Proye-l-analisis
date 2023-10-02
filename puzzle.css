@@ -42,6 +42,21 @@ body {
     z-index: 1;
     overflow: hidden;
 }
+.bSolve {
+    width: 8.5em;
+    height: 2.5em;
+    margin: 0.5em;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 20px; 
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
 button:hover {
     color: black;    
 }
@@ -64,7 +79,7 @@ button:hover:after {
 }
 .title{
     position: relative;
-    top: -100px;
+    top: -250px;
 
     text-align: center;
     color: whitesmoke;
@@ -117,10 +132,12 @@ input[type="range"] {
 
 .fotos {
     display: flex; /* Cambio de flow-root a flex */
-    justify-content: flex-end;  /* Alinear al extremo derecho */
+    justify-content: center;  /* Alinear al extremo derecho */
     gap: 10px;  /* Espacio entre las imágenes */
     margin-bottom: 20px;
     flex-wrap: nowrap; /* Asegura que los elementos no se envuelvan a la siguiente línea */
+    position: relative;
+    top: 150px;
 }
 
 .fotos-item {
@@ -172,16 +189,20 @@ input[type="range"] {
 }
 
 .container2 {
-    display: flex;
+    display: row;
     justify-content: center;
     align-items: center;
     height: 96vh;
     margin: 0;
-    /* background-color: #f0f0f0; */
+}
+
+.container2b {
+    display: flex;
+    height: 3em;
+    margin: 0;
 }
 
 .puzzleBoard {
-
     width: 500px; /* Adjust as needed */
     height: 500px; /* Adjust as needed */
     display: grid;
